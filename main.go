@@ -9,6 +9,8 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"os"
+	"strings"
 )
 
 type response struct {
@@ -75,6 +77,13 @@ func main() {
 		json.NewEncoder(w).Encode(resp)
 	})
 
-	log.Println("Listening on: " + c.Addr)
-	log.Fatal(http.ListenAndServe(c.Addr, nil))
+	addr := c.Addr
+	for _, env := range os.Environ() {
+		envParts := strings.Split(env, "=")
+		if envParts[0] == "PORT" {
+			addr = ":" + envParts[1]
+		}
+	}
+	log.Println("Listening on: " + addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
