@@ -40,7 +40,7 @@ type Config struct {
 var c = &Config{}
 
 func init() {
-	flag.StringVar(&c.Addr, "addr", ":80", "Listening address")
+	flag.StringVar(&c.Addr, "addr", ":8000", "Listening address")
 	flag.Parse()
 }
 
